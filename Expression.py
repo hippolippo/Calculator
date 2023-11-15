@@ -140,7 +140,7 @@ def parse_P(tokens):
     N, rem = parse_N(tokens)
     if N is not None:
         if len(rem) > 0 and rem[-1][0] == MINUS:
-            N = (N[0], -N[1], N[2])
+            N = (N[0], "-"+N[1], N[2])
             rem = rem[:-1]
         if len(rem) == 0:
             return N, []

@@ -23,3 +23,34 @@ Calculator commands:
 <li>let fun x = y in z: evaulates z with the function "fun" being set to y with the parameter x</li>
 <li>(x): evaluates x before any surrounding operations</li>
 </ul>
+
+Built-in functions:
+<ul>
+<li>sin</li>
+<li>sinh</li>
+<li>asin</li>
+<li>asinh</li>
+<li>cos</li>
+<li>cosh</li>
+<li>acos</li>
+<li>acosh</li>
+<li>tan</li>
+<li>tanh</li>
+<li>atan</li>
+<li>atanh</li>
+<li>ceil</li>
+<li>abs</li>
+<li>floor</li>
+<li>trunc</li>
+<li>ln</li>
+<li>lg</li>
+<li>log</li>
+<li>sqrt</li>
+<li>degrees</li>
+<li>radians</li>
+<li>erf</li>
+<li>gamma</li>
+<li>pi</li>
+<li>e</li>
+<li>tau</li>
+</ul>

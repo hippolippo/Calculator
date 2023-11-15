@@ -287,10 +287,48 @@ def repl_run(command, funs, var):
         print("!!!", e)
         return None
     return result
+'''
+def use_module(module, funs):
+    with open(module, "r")
+'''
+
+def use_defaults(funs, var):
+    import math
+    funs["sin"] = math.sin
+    funs["sinh"] = math.sinh
+    funs["asin"] = math.asin
+    funs["asinh"] = math.asinh
+    funs["cos"] = math.cos
+    funs["cosh"] = math.cosh
+    funs["acos"] = math.acos
+    funs["acosh"] = math.acosh
+    funs["tan"] = math.tan
+    funs["tanh"] = math.tanh
+    funs["atan"] = math.atan
+    funs["atanh"] = math.atanh
+    funs["ceil"] = math.ceil
+    funs["abs"] = math.fabs
+    funs["factorial"] = math.factorial
+    funs["floor"] = math.floor
+    funs["trunc"] = math.trunc
+    funs["ln"] = math.log
+    funs["lg"] = math.log2
+    funs["log"] = math.log10
+    funs["sqrt"] = math.sqrt
+    funs["degrees"] = math.degrees
+    funs["radians"] = math.radians
+    funs["erf"] = math.erf
+    funs["gamma"] = math.gamma
+    var["pi"] = math.pi
+    var["e"] = math.e
+    var["tau"] = math.tau
+
+
 
 if __name__ == "__main__":
     funs = {}
     var = {}
+    use_defaults(funs, var)
     running = True
     while running:
         cmd = input("\n~ ")
@@ -319,6 +357,7 @@ if __name__ == "__main__":
                     if len(cmd) != 2:
                         print("Usage: #DEFINE func x")
                         continue'''
+                
             else:
                 print("Invalid # Directive")
         else:

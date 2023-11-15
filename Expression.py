@@ -15,6 +15,7 @@ EOF = 10
 LET = 11
 EQ = 12
 IN = 13
+COMMA = 14
 
 # Tree Labels
 Add = 0
@@ -27,12 +28,13 @@ Var = 6
 Fun = 7
 Let = 8
 Def = 9
+Tup = 10
 
 def _show_tree(tree):
     if(type(tree) is not tuple):
         print(tree, end="")
         return
-    tokens = ["Add", "Sub", "Mul", "Div", "Pow", "Num", "Var", "Fun", "Let", "Def"]
+    tokens = ["Add", "Sub", "Mul", "Div", "Pow", "Num", "Var", "Fun", "Let", "Def", "Tup"]
     print(tokens[tree[0]] + "(", end="")
     for i, v in enumerate(tree[1:]):
         if i != 0:
@@ -89,6 +91,8 @@ def lex(string: str) -> LinkedList:
         return (EXPONENT,) + lex(string[1:])
     if string.startswith("="):
         return (EQ,) + lex(string[1:])
+    if string.startswith(","):
+        return (COMMA,) + lex(string[1:])
     if string[0].isdigit():
         i = 1
         while i <= len(string) and string[:i].isdigit(): i += 1
@@ -149,11 +153,29 @@ def parse_P(tokens):
             return (Fun, rem[-1][1], N), rem[:-1]
         return N, rem
     if tokens[-1][0] == RPAREN:
+        if len(tokens) > 1 and tokens[-2][0] == LPAREN:
+            if len(tokens) > 2 and tokens[-3][0] == WORD:
+                return (Fun, tokens[-3][1], (Tup,)), tokens[:-3]
+            return (Tup,), tokens[:-2]
+        istup = False
+        if len(tokens) > 1 and tokens[-2][0] == COMMA:
+            istup = True
+            tokens.pop(-2)
         L, rem = parse_L(tokens[:-1])
         if len(rem) > 0 and rem[-1][0] == LPAREN:
+            if istup: L = (Tup, L)
             if len(rem) > 1 and rem[-2][0] == WORD:
                 return (Fun, rem[-2][1], L), rem[:-2]
             return L, rem[:-1]
+        elif len(rem) > 0 and rem[-1][0] == COMMA:
+            gentup = LinkedList(L)
+            while(len(rem) > 0 and rem[-1][0] == COMMA):
+                L, rem = parse_L(rem[:-1])
+                gentup = L + gentup
+            if len(rem) > 0 and rem[-1][0] == LPAREN:
+                if len(rem) > 1 and rem[-2][0] == WORD:
+                    return (Fun, rem[-2][1], (Tup,) + tuple(gentup)), rem[:-2]
+                return (Tup,) + tuple(gentup), rem[:-1]
         else:
             raise ValueError(f"Parsing Failed in P, saw closing parenthesis without opening parenthesis")
     if tokens[-1][0] == EQ:
@@ -268,7 +290,9 @@ def evaluate(tree, funs, var):
                 return evaluate(tree[3], funs, new_var)
             new_funs[tree[1]] = this_fun
             return evaluate(tree[4], new_funs, var)
-        case _: raise ValueError(f"Invalid tree option {tree[1]}")
+        case 10: # Tup
+            return tuple((evaluate(subtree, funs, var) for subtree in tree[1:]))
+        case _: raise ValueError(f"Invalid tree option {tree[0]}")
 
 def repl_run(command, funs, var):
     try:
@@ -322,6 +346,7 @@ def use_defaults(funs, var):
     var["pi"] = math.pi
     var["e"] = math.e
     var["tau"] = math.tau
+    funs["print"] = lambda a: print(*a)
 
 
 

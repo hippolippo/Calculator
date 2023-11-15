@@ -1,12 +1,14 @@
 # Calculator
 This is a calculator written in python with the goal of supporting all features I can think of
 
-Running Expression.py with start a calculator REPL
+Running Expression.py will start a calculator REPL
 
 REPL commands:
 <ul>
 <li>#EXIT or #QUIT: exits the repl</li>
 <li>#SETVAR x: will allow you to set the value of the variable specified for use in later expressions</li>
+<li>Coming Soon: #DEFINE func x: will allow you to define a function to call in later expressions</li>
+<li>Coming Soon: #IMPORT module: import constants or functions into the environment</li>
 </ul>
 
 Calculator commands:

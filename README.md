@@ -50,6 +50,9 @@ Built-in functions:
 <li>radians</li>
 <li>erf</li>
 <li>gamma</li>
+</ul>
+Included Constants
+<ul>
 <li>pi</li>
 <li>e</li>
 <li>tau</li>
